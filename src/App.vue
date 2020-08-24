@@ -1,61 +1,61 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+  <v-app id="inspire" v-bind:class="{'style-on': toggleGrid}">
+    <NavDrawer/>
     <v-main>
-      <HelloWorld/>
+      <v-container fluid>
+        <v-row>
+          <v-col>
+            <router-view></router-view>
+          </v-col>
+          <v-col>
+
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
+    <v-footer
+      color="indigo"
+      app
+    >
+    <v-row>
+      <v-col align="end" class="pa-0">
+        <v-btn  color="error" x-small @click="toggleGrid = !toggleGrid">Toggle Grid</v-btn>
+      </v-col >
+    </v-row>
+    </v-footer>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+//import HelloWorld from './components/HelloWorld.vue';
+import NavDrawer from './components/NavDrawer.vue';
+
 
 export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld,
+    NavDrawer,
   },
-
+props: {
+      source: String,
+    },
   data: () => ({
-    //
+    drawer: null,
+    toggleGrid: false
   }),
 });
 </script>
+
+<style>
+.style-on div[class^='col'], .style-on div[class*='col']{
+    border: .25px solid red;
+}
+.style-on .row {
+  border: .25px solid blue;
+}
+.container{
+  border: .5px solid rgb(219, 234, 240);
+}
+</style>
