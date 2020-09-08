@@ -1,9 +1,10 @@
 <template>
   <div>
     <v-card class="d-flex" outlined
-    :hover="hasReply" 
-    :to="hasReply ? undefined : squawkData.link">
-      <v-card class="pa-2 flex-shrink-1" v-if="!hasReply">
+    :hover="!isMain" 
+    :to="isMain ? undefined : `/users/${userData.userName}/squawks/${squawkData.id}`"
+    >
+      <v-card class="pa-2 flex-shrink-1" v-if="!isMain">
         <v-avatar rounded="circle" class="mt-3 ml-5">
           <v-img :src="userData.links.find(link => link.rel === 'image').href"></v-img>
         </v-avatar>
@@ -13,11 +14,11 @@
         <v-card class="pa-2">
 
           <!-- Is Main Squawk -->
-          <div v-if="hasReply">
+          <div v-if="isMain">
             <v-list two-line>
               <v-list-item :key="userData.userName">
                 <div>
-                  <v-list-item-avatar v-if="hasReply">
+                  <v-list-item-avatar>
                     <v-img :src="userData.links.find(link => link.rel === 'image').href"></v-img>
                   </v-list-item-avatar>
                 </div>
@@ -33,10 +34,10 @@
               </v-list-item>
             </v-list>
             <v-card-text class="pt-0 pb-0" v-if="replyToUser !== null">
-                Replying to <router-link :to="replyToUser.link">@{{replyToUser.userName}}</router-link>
+                Replying to <router-link :to="`/users/${userData.userName}`">@{{replyToUser.userName}}</router-link>
             </v-card-text>
             <v-card-text class="text-h5 font-weight-medium">
-              <span v-html="squawkData.fullText"></span>
+              <span v-html="squawkData.text"></span>
             </v-card-text>
             <v-card-text class="body-1 blue-grey--text text--lighten-1">
               {{squawkData.createdAt | moment("h:mmA &middot; MMM DD, YYYY")}}
@@ -50,7 +51,6 @@
               <v-divider class="mt-4 mb-n4"></v-divider>
             </v-card-text>
             <SquawkActionBar
-              v-if="hasReply"
               :resquawk-count="squawkData.resquawkCount"
               :reply-count="squawkData.replyCount"
               :favorite-count="squawkData.favoriteCount"
@@ -71,11 +71,10 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list>
-            <v-card-text v-if="!hasReply" class="mt-n9 pb-0 body-1">
-              <span v-html="squawkData.fullText"></span>
+            <v-card-text class="mt-n9 pb-0 body-1">
+              <span v-html="squawkData.text"></span>
             </v-card-text>
             <SquawkActionBar class="pt-0"
-              v-if="!hasReply"
               :resquawk-count="squawkData.resquawkCount"
               :reply-count="squawkData.replyCount"
               :favorite-count="squawkData.favoriteCount"
@@ -106,13 +105,13 @@ export default Vue.extend({
     },
     currentSquawk: {
       type: Number,
-      required: true,
+      required: false,
     },
     replyToUser: Object
   },
   data: () => ({}),
   computed: {
-    hasReply: function () {
+    isMain: function () {
       return this.squawkData.id == this.currentSquawk;
     },
   },

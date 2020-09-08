@@ -19,7 +19,7 @@ Vue.use(vuetify, {
  })
 
  Vue.use(VueAxios, axios)
- 
+
  Vue.use(VueMoment)
  
 new Vue({
@@ -28,4 +28,3 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
-

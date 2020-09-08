@@ -29,12 +29,12 @@ Vue.use(VueRouter)
     component: () => import('../views/Profile.vue')
   },
   {
-    path: '/users/:userId/squawks/:squawkId',
+    path: '/users/:userName/squawks/:squawkId',
     name: 'Squawks',
     component: () => import('../views/Squawks.vue')
   },
   {
-    path: '/users/:userId',
+    path: '/users/:userName',
     name: 'Users',
     component: () => import('../views/Users.vue')
   },

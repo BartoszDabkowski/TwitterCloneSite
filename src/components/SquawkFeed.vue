@@ -2,9 +2,9 @@
 <div>
     <DetailedSquawk v-for="squawk in squawks" :key="squawk.Id"
     :squawk-data="squawk" 
-    :user-data="users[squawk.userId]"
+    :user-data="users[squawk.userName]"
     :current-squawk="currentSquawk"
-    :reply-to-user="squawk.inReplyToPostId !== null ? users[squawks[squawk.inReplyToPostId].userId]: null" />
+    :reply-to-user="null" />
 </div>
 </template>
 
@@ -25,8 +25,11 @@ export default Vue.extend({
     },
     currentSquawk: {
       type: Number,
-      required: true,
+      required: false,
     }
+  },
+  mounted() {
+    //   Object.keys(this.squawks).forEach(e => console.log(this.squawks[e]));
   },
   data: () => ({}),
   computed: {},
